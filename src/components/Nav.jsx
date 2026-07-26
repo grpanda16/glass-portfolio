@@ -4,7 +4,7 @@ export default function Nav(){
   return (
     <nav>
       <div className="navbar glass">
-        <NavLink to="/" className="brand">Gyanaranjan <b>Panda</b></NavLink>
+        <NavLink to="/" className="brand">Mr. Gyanaranjan <b>Panda</b></NavLink>
         <div className="menu">
           <NavLink to="/" className={(s)=>'lnk '+(cls(s)||'')} end>Home</NavLink>
           <NavLink to="/work" className={(s)=>'lnk '+(cls(s)||'')}>Work</NavLink>
