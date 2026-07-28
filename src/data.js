@@ -127,14 +127,19 @@ export const PROJECTS = [
   },
 ];
 
+/**
+ * Order matters: the home page shows the first six groups, the /work page shows
+ * all of them. Cloud sits third so it appears on both.
+ */
 export const STACK = [
   ['Languages', ['Java', 'JavaScript', 'SQL']],
   ['Backend', ['Spring Boot', 'Spring MVC', 'Spring Security', 'JPA / Hibernate', 'REST APIs']],
+  ['Cloud', ['AWS', 'GCP']],
   ['Front-end', ['React', 'Angular', 'Responsive UI']],
   ['Messaging', ['Apache Kafka', 'Google Pub/Sub']],
   ['Data', ['PostgreSQL', 'MySQL', 'MongoDB']],
   ['Auth', ['JWT', 'OAuth 2.0', 'Keycloak', 'Spring Security']],
-  ['Cloud & Ops', ['GCP', 'AWS', 'Docker', 'CI/CD', 'Maven']],
+  ['Delivery', ['Docker', 'CI/CD', 'Maven']],
   ['Practices', ['Microservices', 'Event-driven design', 'Hexagonal architecture']],
 ];
 
