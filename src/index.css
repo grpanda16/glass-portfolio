@@ -531,6 +531,30 @@ form.contact{display:flex;flex-direction:column;gap:16px}
 .cta-band>*{position:relative}
 .cta-band .cta{display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-top:28px}
 
+/* ---------- open to work banner ---------- */
+.otw{position:relative;overflow:hidden}
+.otw::before{content:'';position:absolute;inset:-40%;pointer-events:none;background:
+  radial-gradient(circle at 22% 18%,rgba(111,231,198,.16),transparent 52%),
+  radial-gradient(circle at 80% 82%,rgba(139,147,255,.18),transparent 52%)}
+.otw-body{position:relative;padding:clamp(28px,4.5vw,44px)}
+
+.otw-status{border-color:rgba(111,231,198,.4);background:rgba(111,231,198,.08);color:var(--mint)}
+.otw-role{font-size:clamp(24px,3.4vw,36px);letter-spacing:-.03em;line-height:1.12;margin:20px 0 0}
+.otw-focus{display:block;margin-top:6px;background:var(--grad);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.otw-note{margin-top:16px;font-size:15px}
+
+.otw-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:28px;
+  background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.otw-facts>div{background:rgba(10,12,22,.7);padding:16px 18px;backdrop-filter:blur(8px)}
+.otw-facts dt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3)}
+.otw-facts dd{font-size:13.5px;color:var(--ink);margin-top:7px;line-height:1.45}
+@media(max-width:820px){.otw-facts{grid-template-columns:1fr 1fr}}
+@media(max-width:440px){.otw-facts{grid-template-columns:1fr}}
+
+.otw-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+
 footer{margin-top:clamp(70px,10vw,120px);border-top:1px solid var(--line);padding:30px 0 40px}
 .foot-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
   font-family:var(--mono);font-size:11px;color:var(--ink-3)}

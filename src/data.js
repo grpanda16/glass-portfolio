@@ -5,13 +5,30 @@ export const PROFILE = {
   company: 'Boeing',
   location: 'India · Hybrid',
   years: '4.5',
-  available: 'Open to backend & distributed-systems roles',
+  available: 'Open to work · Java Full Stack + AWS',
   tagline: 'Java on the backend. React on the front.',
-  taglineAccent: 'Reliable across both.',
+  taglineAccent: 'Cloud underneath.',
   summary:
     'Software Engineer at Boeing, four and a half years into building the backend half properly ' +
     'and the front-end half so it does the backend justice — Spring Boot microservices, Kafka ' +
-    'event pipelines and React interfaces that hold up once real traffic arrives.',
+    'event pipelines and React interfaces, deployed on AWS and GCP and built to hold up once ' +
+    'real traffic arrives.',
+};
+
+/** Availability banner shown on the home page and on /contact. */
+export const OPEN_TO_WORK = {
+  status: 'Open to work',
+  role: 'Software Engineer',
+  focus: 'Java Full Stack + AWS',
+  note:
+    'Looking for backend-heavy full-stack work — Spring Boot services, event-driven systems ' +
+    'and the cloud infrastructure they run on.',
+  facts: [
+    ['Focus', 'Backend & distributed systems'],
+    ['Stack', 'Java · Spring Boot · AWS'],
+    ['Base', 'India · Hybrid or remote'],
+    ['Reply', 'Usually within a day'],
+  ],
 };
 
 export const METRICS = [
@@ -210,6 +227,28 @@ LIMIT  20;`,
   }, [status]);
 
   return state;
+}`,
+  },
+  {
+    label: 'AWS',
+    lang: 'java',
+    file: 'OrderQueueListener.java',
+    code: `@Component
+class OrderQueueListener {
+
+  private final ProcessedEvents processed;
+  private final OrderService orders;
+
+  @SqsListener("order-events")
+  void onOrderEvent(OrderEvent event,
+                    @Header("MessageId") String id) {
+
+    // SQS delivers at least once — claim before applying
+    if (!processed.claim(id)) {
+      return;
+    }
+    orders.apply(event);
+  }
 }`,
   },
 ];
