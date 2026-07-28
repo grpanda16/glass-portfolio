@@ -130,6 +130,28 @@ export const HERO_SNIPPETS = [
   {
     label: 'Java',
     lang: 'java',
+    file: 'Order.java',
+    code: `public final class Order {
+
+  private final OrderId id;
+  private OrderStatus status;
+  private Instant cancelledAt;
+
+  public void cancel(Clock clock) {
+    if (status == OrderStatus.SHIPPED) {
+      throw new OrderAlreadyShipped(id);
+    }
+    if (status == OrderStatus.CANCELLED) {
+      return;  // cancelling twice is not an error
+    }
+    status = OrderStatus.CANCELLED;
+    cancelledAt = clock.instant();
+  }
+}`,
+  },
+  {
+    label: 'Spring Boot',
+    lang: 'java',
     file: 'OrderController.java',
     code: `@RestController
 @RequestMapping("/api/v1/orders")
@@ -148,6 +170,23 @@ class OrderController {
     return ResponseEntity.ok(OrderView.from(order));
   }
 }`,
+  },
+  {
+    label: 'SQL',
+    lang: 'sql',
+    file: 'top_customers.sql',
+    code: `SELECT c.id,
+       c.name,
+       COUNT(o.id)        AS orders,
+       SUM(o.total_minor) AS lifetime_minor
+FROM   customer c
+JOIN   orders   o ON o.customer_id = c.id
+WHERE  o.placed_at >= NOW() - INTERVAL '90 days'
+  AND  o.status = 'FULFILLED'
+GROUP  BY c.id, c.name
+HAVING COUNT(o.id) > 3
+ORDER  BY lifetime_minor DESC
+LIMIT  20;`,
   },
   {
     label: 'React',
@@ -169,43 +208,6 @@ class OrderController {
   }, [status]);
 
   return state;
-}`,
-  },
-  {
-    label: 'SQL',
-    lang: 'sql',
-    file: 'top_customers.sql',
-    code: `SELECT c.id,
-       c.name,
-       COUNT(o.id)        AS orders,
-       SUM(o.total_minor) AS lifetime_minor
-FROM   customer c
-JOIN   orders   o ON o.customer_id = c.id
-WHERE  o.placed_at >= NOW() - INTERVAL '90 days'
-  AND  o.status = 'FULFILLED'
-GROUP  BY c.id, c.name
-HAVING COUNT(o.id) > 3
-ORDER  BY lifetime_minor DESC
-LIMIT  20;`,
-  },
-  {
-    label: 'JavaScript',
-    lang: 'js',
-    file: 'idempotency.js',
-    code: `const seen = new Map();
-
-// Replays get the first answer, not a second write.
-export function once(key, ttlMs, run) {
-  const hit = seen.get(key);
-
-  if (hit && hit.expires > Date.now()) {
-    return hit.value;
-  }
-
-  const value = run();
-  seen.set(key, { value, expires: Date.now() + ttlMs });
-
-  return value;
 }`,
   },
 ];
