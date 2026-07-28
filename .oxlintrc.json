@@ -7,7 +7,7 @@
   },
   "overrides": [
     {
-      "files": ["src/posts/*.jsx"],
+      "files": ["src/posts/*.jsx", "src/entry-server.jsx"],
       "rules": {
         "react/only-export-components": "off"
       }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Reveal from '../components/Reveal';
 import useSeo from '../lib/useSeo';
+import { PAGE_SEO } from '../lib/seo';
 import { LINKS, PROFILE } from '../data';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -17,13 +18,7 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [copied, setCopied] = useState(false);
 
-  useSeo({
-    title: 'Contact — Gyanaranjan Panda',
-    description:
-      'Get in touch about Java full-stack, backend and distributed-systems roles. ' +
-      'Email, LinkedIn and GitHub.',
-    path: '/contact',
-  });
+  useSeo({ ...PAGE_SEO['/contact'], path: '/contact' });
 
   const set = (field) => (e) => {
     setValues((v) => ({ ...v, [field]: e.target.value }));

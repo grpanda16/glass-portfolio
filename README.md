@@ -89,6 +89,54 @@ Dark only, by choice. Motion respects `prefers-reduced-motion` throughout.
 `public/og.png` (1200×630) is referenced by the OG and Twitter meta tags in
 `index.html`. It was generated from an SVG; regenerate it if the tagline changes.
 
+## SEO & pre-rendering
+
+`npm run build` runs three stages:
+
+```
+vite build                                  # client bundle
+vite build --ssr src/entry-server.jsx       # server bundle (temp)
+node scripts/prerender.mjs                  # static HTML + sitemap
+```
+
+The prerenderer renders every route with `react-dom/server` and writes a real
+HTML file per URL — `dist/work/index.html`, `dist/writing/<slug>/index.html` and
+so on — so crawlers receive the actual text instead of an empty `<div id="root">`.
+The browser then hydrates it (`src/main.jsx` picks `hydrateRoot` when the root
+already has markup, `createRoot` in dev when it doesn't). The temporary
+`dist-ssr/` is deleted afterwards.
+
+**Adding a post needs no extra step.** It is picked up by the glob, prerendered,
+and added to the sitemap automatically.
+
+### Where the metadata lives
+
+`src/lib/seo.js` is the single source: titles, descriptions, the route list and
+the `BlogPosting` schema. Both the build-time prerenderer and the runtime hooks
+(`useSeo`, `useJsonLd`) read it, so the static HTML and client-side navigation
+can't disagree. Effects don't run during `renderToString`, which is why the
+prerenderer writes the `<head>` tags itself rather than relying on the hooks.
+
+- **`public/robots.txt`** — static, allows everything, points at the sitemap.
+- **`dist/sitemap.xml`** — generated, with real `lastmod` dates from each post.
+- **Person schema** — static JSON-LD in `index.html`. This is what connects a
+  search for the name to this site; keep `sameAs` pointing at LinkedIn and GitHub.
+- **BlogPosting schema** — in the prerendered HTML for articles, and managed on
+  client-side navigation by `src/lib/useJsonLd.js` (added on entry, removed on
+  exit, so non-article routes stay clean).
+
+> `robots.txt` and `sitemap.xml` must be real files. `vercel.json` rewrites every
+> unmatched path to `/`, so anything missing returns the SPA's HTML with a 200
+> instead of a 404 — which is how a missing sitemap silently becomes an
+> "existing" one full of HTML. Vercel checks the filesystem before rewrites, so
+> the prerendered pages win and the rewrite only catches genuinely unknown URLs.
+
+### SSR constraints
+
+Components must not touch `window`, `document` or `navigator` during render —
+only inside effects or event handlers. Break that and the build fails at the
+prerender step rather than in production.
+
 ## Notes
 
 - The GitHub repository grid on `/work` calls the public GitHub API

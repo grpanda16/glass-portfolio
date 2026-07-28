@@ -1,5 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import useSeo from '../lib/useSeo';
+import useJsonLd from '../lib/useJsonLd';
+import { articleJsonLd } from '../lib/seo';
 import NotFound from './NotFound';
 import { LINKS } from '../data';
 import { POSTS, formatDate, getPost } from '../posts';
@@ -15,6 +17,8 @@ export default function Post() {
     path: `/writing/${slug}`,
     type: 'article',
   });
+
+  useJsonLd(post ? articleJsonLd(post) : null);
 
   if (!post) return <NotFound what="post" />;
 

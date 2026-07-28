@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Reveal from '../components/Reveal';
 import useSeo from '../lib/useSeo';
+import { PAGE_SEO } from '../lib/seo';
 import { ALL_TAGS, POSTS, formatDate } from '../posts';
 
 export default function Writing() {
@@ -12,13 +13,7 @@ export default function Writing() {
     [tag],
   );
 
-  useSeo({
-    title: 'Writing — Gyanaranjan Panda',
-    description:
-      'Notes on JWT and Spring Security, Keycloak and OAuth 2.0, idempotent Kafka consumers, ' +
-      'JPA performance and structuring Spring Boot microservices.',
-    path: '/writing',
-  });
+  useSeo({ ...PAGE_SEO['/writing'], path: '/writing' });
 
   return (
     <div className="wrap page">

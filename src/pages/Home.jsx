@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Code from '../components/Code';
 import Reveal from '../components/Reveal';
 import useSeo from '../lib/useSeo';
+import { PAGE_SEO } from '../lib/seo';
 import { HERO_SNIPPET, LINKS, METRICS, PROFILE, PROJECTS, STACK } from '../data';
 import { POSTS, formatDate } from '../posts';
 
@@ -26,13 +27,7 @@ const DOING = [
 export default function Home() {
   const recent = POSTS.slice(0, 3);
 
-  useSeo({
-    title: 'Gyanaranjan Panda — Java Full Stack Engineer',
-    description:
-      'Java Full Stack Engineer with 4.5 years building Spring Boot microservices, Kafka event ' +
-      'pipelines and React front-ends. Software Engineer at Boeing.',
-    path: '/',
-  });
+  useSeo({ ...PAGE_SEO['/'], path: '/' });
 
   return (
     <>
