@@ -137,6 +137,37 @@ Components must not touch `window`, `document` or `navigator` during render —
 only inside effects or event handlers. Break that and the build fails at the
 prerender step rather than in production.
 
+## Visit counter
+
+A total-visits pill in the footer, backed by `api/visits.js` (a Vercel
+serverless function) and Vercel KV.
+
+**Setup — one click, no tokens to copy:**
+
+1. Vercel dashboard → your project → **Storage** → **Create Database** → **KV**
+2. Connect it to this project
+
+Vercel injects `KV_REST_API_URL` and `KV_REST_API_TOKEN` automatically. **Until
+you do this the endpoint returns 503 and the pill renders nothing** — the site
+is not broken in the meantime, the counter is simply absent.
+
+Details worth knowing:
+
+- Counts **once per browser session**, not per page load. The first load POSTs
+  (incrementing), later navigations GET. Without that, every client-side route
+  change would count, and StrictMode's double-invoked effects would count twice
+  in dev.
+- Uses Redis `INCR`, which is atomic — concurrent visitors cannot overwrite each
+  other the way a read-then-write would.
+- Skips common crawler user-agents so bots don't inflate it.
+- Fails silently. Unconfigured, unreachable, or rate-limited, the component
+  renders nothing rather than an error.
+- `vercel.json` excludes `/api` from the SPA rewrite, or the fallback would
+  swallow the function.
+- `vite.config.js` has a dev-only middleware serving an in-memory `/api/visits`,
+  so the counter works under `npm run dev` and `npm run preview`. It is
+  `apply: 'serve'`, so it never reaches a production build.
+
 ## Notes
 
 - The GitHub repository grid on `/work` calls the public GitHub API
