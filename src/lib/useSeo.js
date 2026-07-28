@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 
-const SITE = 'https://gyanaranjanpanda.com';
+// Must match the host that actually serves the site — a canonical pointing at a
+// domain that does not resolve breaks indexing and social previews.
+const SITE = 'https://www.gyanaranjanpanda.com';
 
 function setMeta(selector, attr, value) {
   let el = document.head.querySelector(selector);
