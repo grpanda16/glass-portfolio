@@ -1,25 +1,77 @@
-import { NavLink } from 'react-router-dom';
-export default function Nav(){
-  const cls = ({isActive}) => isActive ? 'on' : undefined;
+import { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+
+const LINKS = [
+  { to: '/', label: 'Home', end: true },
+  { to: '/work', label: 'Work' },
+  { to: '/writing', label: 'Writing' },
+];
+
+export default function Nav() {
+  const [open, setOpen] = useState(false);
+  const [stuck, setStuck] = useState(false);
+  const { pathname } = useLocation();
+
+  // close the mobile menu whenever the route changes
+  useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setStuck(window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === 'Escape' && setOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  const cls = ({ isActive }) => (isActive ? 'on' : undefined);
+
   return (
-    <nav>
-      <div className="navbar glass">
-        <NavLink to="/" className="brand">Mr. Gyanaranjan <b>Panda</b></NavLink>
-        <div className="menu">
-          <NavLink to="/" className={(s)=>'lnk '+(cls(s)||'')} end>Home</NavLink>
-          <NavLink to="/work" className={(s)=>'lnk '+(cls(s)||'')}>Work</NavLink>
-          <div className="dd">
-            <button className="dd-btn">Explore ▾</button>
-            <div className="dd-panel glass">
-              <NavLink to="/work"><span>Experience</span><small>Four roles, 2021 → now</small></NavLink>
-              <NavLink to="/work"><span>Tech Stack</span><small>Java · Spring · React</small></NavLink>
-              <NavLink to="/work"><span>Repositories</span><small>Live from GitHub</small></NavLink>
-              <NavLink to="/contact"><span>Contact</span><small>Let's talk</small></NavLink>
-            </div>
-          </div>
-          <NavLink to="/contact" className="btn solid">Contact</NavLink>
+    <header className={`nav${stuck ? ' stuck' : ''}`}>
+      <div className="wrap">
+        <div className="nav-inner">
+          <Link to="/" className="brand" aria-label="Gyanaranjan Panda — home">
+            <span className="brand-mark" aria-hidden="true">GP</span>
+            <span className="brand-name">Gyanaranjan&nbsp;<b>Panda</b></span>
+          </Link>
+
+          <nav className="nav-links" aria-label="Primary">
+            {LINKS.map((l) => (
+              <NavLink key={l.to} to={l.to} end={l.end} className={cls}>{l.label}</NavLink>
+            ))}
+            <Link to="/contact" className="btn solid sm nav-cta">Get in touch</Link>
+          </nav>
+
+          <button
+            type="button"
+            className="burger"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
+
+        <div id="mobile-nav" className={`mobile-panel${open ? ' open' : ''}`}>
+          <nav className="mobile-inner card" aria-label="Mobile">
+            {LINKS.map((l) => (
+              <NavLink key={l.to} to={l.to} end={l.end} className={cls}>
+                {l.label}<span aria-hidden="true">→</span>
+              </NavLink>
+            ))}
+            <NavLink to="/contact" className={cls}>
+              Contact<span aria-hidden="true">→</span>
+            </NavLink>
+          </nav>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }

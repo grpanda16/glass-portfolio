@@ -1,72 +1,149 @@
-export const EXPERIENCE = [
-  { offset:'03', org:'Boeing', role:'Software Engineer', when:'Feb 2026 → present', place:'India · Hybrid',
-    current:true,
-    bullets:['Backend services and distributed systems in Java & Spring Boot.'],
-    tags:['Java','Spring Boot','Microservices','Distributed Systems'] },
-  { offset:'02', org:'CureBay', role:'Software Engineer — Mid', when:'Jun 2024 → Nov 2025 · 1y 6m', place:'Bhubaneswar · Hybrid',
-    bullets:['Event-driven microservices on Apache Kafka.',
-      'AuthN/AuthZ with Spring Security, JWT and Keycloak.',
-      'REST APIs shipped to GCP via Docker-based CI/CD.',
-      'Performance tuning and production issue resolution.'],
-    tags:['Java','Spring Boot','Kafka','GCP','JWT','Keycloak','Docker'] },
-  { offset:'01', org:'Certiview IT & Management Solutions', role:'Java Developer', when:'Jan 2022 → May 2024 · 2y 5m', place:'Bengaluru · Hybrid',
-    bullets:['Java application development across the full request lifecycle.',
-      'MEAN-stack work alongside the Java services.'],
-    tags:['Java','MEAN Stack','REST APIs','MongoDB'] },
-  { offset:'00', org:'TapAcademy', role:'Associate Software Developer', when:'Apr → Nov 2021 · 8m', place:'Bengaluru · On-site · Internship',
-    bullets:['Server-side programming in Java.'],
-    tags:['Java','Server-Side'] },
+export const PROFILE = {
+  name: 'Gyanaranjan Panda',
+  initials: 'GP',
+  title: 'Java Full Stack Engineer',
+  company: 'Boeing',
+  location: 'India · Hybrid',
+  years: '4.5',
+  available: 'Open to backend & distributed-systems roles',
+  summary:
+    'I build the backend half properly and the front-end half so it does the backend justice — ' +
+    'Spring Boot services, Kafka event pipelines, and React interfaces that hold up once real ' +
+    'traffic arrives.',
+};
+
+export const METRICS = [
+  { k: '4.5', v: 'Years shipping' },
+  { k: '4', v: 'Engineering roles' },
+  { k: '10+', v: 'Microservices built' },
+  { k: '2', v: 'Flagship platforms' },
 ];
 
+export const EXPERIENCE = [
+  {
+    id: 'boeing',
+    org: 'Boeing',
+    role: 'Software Engineer',
+    when: 'Feb 2026 → present',
+    place: 'India · Hybrid',
+    current: true,
+    bullets: [
+      'Backend services and distributed systems in Java and Spring Boot.',
+      'Working across service boundaries where correctness and traceability matter more than raw throughput.',
+    ],
+    tags: ['Java', 'Spring Boot', 'Microservices', 'Distributed Systems'],
+  },
+  {
+    id: 'curebay',
+    org: 'CureBay',
+    role: 'Software Engineer — Mid',
+    when: 'Jun 2024 → Nov 2025 · 1y 6m',
+    place: 'Bhubaneswar · Hybrid',
+    bullets: [
+      'Designed and shipped event-driven microservices on Apache Kafka — ordering, catalog, prescription and consultation flows.',
+      'Owned authentication and authorisation end to end: Spring Security, JWT and Keycloak across every internal service.',
+      'Delivered REST APIs to GCP through Docker-based CI/CD, from branch to production.',
+      'Profiled and fixed production issues — slow queries, hot endpoints, retry storms — rather than throwing instances at them.',
+    ],
+    tags: ['Java', 'Spring Boot', 'Kafka', 'GCP', 'JWT', 'Keycloak', 'Docker'],
+  },
+  {
+    id: 'certiview',
+    org: 'Certiview IT & Management Solutions',
+    role: 'Java Developer',
+    when: 'Jan 2022 → May 2024 · 2y 5m',
+    place: 'Bengaluru · Hybrid',
+    bullets: [
+      'Java application development across the full request lifecycle — controller to persistence.',
+      'MEAN-stack work alongside the Java services, which is where the full-stack half started.',
+    ],
+    tags: ['Java', 'MEAN Stack', 'REST APIs', 'MongoDB'],
+  },
+  {
+    id: 'tapacademy',
+    org: 'TapAcademy',
+    role: 'Associate Software Developer',
+    when: 'Apr → Nov 2021 · 8m',
+    place: 'Bengaluru · On-site · Internship',
+    bullets: ['Server-side programming in Java — the first production code I was responsible for.'],
+    tags: ['Java', 'Server-Side'],
+  },
+];
 
 export const PROJECTS = [
   {
-    name:'Connect Application',
-    sub:'B2B Pharmacy / Healthcare Platform · CureBay',
-    role:'Full Stack Java Developer',
-    domain:'Healthcare e-commerce · Doctor consultation · OCR prescription · Bulk orders',
-    bullets:[
-      'Built ERP integrations and a Security Manager for secure, scalable business operations.',
-      'Designed multiple Spring Boot microservices: medicine ordering, catalog/cart, prescription processing, bulk orders and consultation workflows.',
-      'Built REST APIs with Spring MVC using a clean layered architecture — validation, logging and exception handling throughout.',
-      'Optimised database access with Spring Data JPA/Hibernate, pagination and query tuning for high-volume requests.',
-      'Drove end-to-end delivery with UI/QA/Product, taking features through to production readiness.',
+    name: 'Connect Application',
+    sub: 'B2B Pharmacy & Healthcare Platform · CureBay',
+    role: 'Full Stack Java Developer',
+    domain: 'Healthcare e-commerce · Doctor consultation · OCR prescriptions · Bulk ordering',
+    summary:
+      'A multi-tenant B2B platform where pharmacies order stock, patients book consultations, and ' +
+      'prescriptions arrive as scanned images that have to become structured orders.',
+    bullets: [
+      'Built ERP integrations and a Security Manager module governing access across business operations.',
+      'Split the domain into Spring Boot microservices — medicine ordering, catalog/cart, prescription processing, bulk orders and consultation workflows — each owning its own data.',
+      'Built REST APIs on Spring MVC with a strict layered contract: request validation, structured logging and centralised exception handling at every boundary.',
+      'Tuned database access with Spring Data JPA and Hibernate — projections, pagination and query rewrites for the high-volume catalog paths.',
+      'Drove delivery with UI, QA and Product, taking features from spec to production readiness.',
     ],
-    tags:['Java','Spring Boot','Angular','GCP','Spring Data JPA','MySQL','MongoDB','Microservices','Hexagonal Architecture'],
+    tags: ['Java', 'Spring Boot', 'Angular', 'GCP', 'Spring Data JPA', 'MySQL', 'MongoDB', 'Microservices', 'Hexagonal Architecture'],
   },
   {
-    name:'FDS — Financial Document Store',
-    sub:'Financial Document Management System',
-    role:'Java Developer',
-    domain:'Document management for deals, transactions, companies and facilities',
-    bullets:[
+    name: 'FDS — Financial Document Store',
+    sub: 'Financial Document Management System',
+    role: 'Java Developer',
+    domain: 'Documents for deals, transactions, companies and facilities',
+    summary:
+      'A document system for regulated financial workflows, where every read and write is an ' +
+      'auditable event and duplicate processing is a compliance problem, not a bug report.',
+    bullets: [
       'Developed microservices with Spring Boot, Spring MVC and Spring Data JPA over PostgreSQL.',
-      'Implemented service-to-service communication with @FeignClient and REST Template; integrated Apache Kafka for asynchronous, event-driven processing.',
+      'Wired service-to-service calls with @FeignClient and RestTemplate; moved the slow paths onto Apache Kafka for asynchronous processing.',
       'Built the Fax Module — fetch, update, delete, split and merge operations over document workflows.',
-      'Added batch processing with scheduler locks to prevent duplicate execution across distributed instances.',
-      'Added indexing and search to improve retrieval performance at volume, plus a permalink generator for secure document sharing.',
-      'Enforced authentication/authorisation controls over sensitive financial documents; improved fault tolerance.',
+      'Added batch processing with scheduler locks so a job runs exactly once across distributed instances instead of once per instance.',
+      'Introduced indexing and search to keep retrieval fast at volume, plus a permalink generator for secure external document sharing.',
+      'Enforced authentication and authorisation over sensitive financial documents, and hardened fault tolerance on the integration paths.',
     ],
-    tags:['Java','Spring Boot','Apache Kafka','PostgreSQL','Feign Client','Spring Data JPA','Microservices','Maven'],
+    tags: ['Java', 'Spring Boot', 'Apache Kafka', 'PostgreSQL', 'Feign Client', 'Spring Data JPA', 'Microservices', 'Maven'],
   },
 ];
 
 export const STACK = [
-  ['Languages', ['Java','JavaScript','SQL']],
-  ['Backend', ['Spring Boot','Spring Security','JPA / Hibernate','REST APIs']],
-  ['Front-end', ['React.js','Responsive UI']],
-  ['Messaging', ['Apache Kafka','Google Pub/Sub']],
-  ['Data', ['PostgreSQL','MySQL','MongoDB']],
-  ['Auth', ['JWT','OAuth 2.0','Keycloak']],
-  ['Cloud & Ops', ['GCP','AWS','Docker','CI/CD']],
-  ['Exploring', ['GenAI integration']],
+  ['Languages', ['Java', 'JavaScript', 'SQL']],
+  ['Backend', ['Spring Boot', 'Spring MVC', 'Spring Security', 'JPA / Hibernate', 'REST APIs']],
+  ['Front-end', ['React', 'Angular', 'Responsive UI']],
+  ['Messaging', ['Apache Kafka', 'Google Pub/Sub']],
+  ['Data', ['PostgreSQL', 'MySQL', 'MongoDB']],
+  ['Auth', ['JWT', 'OAuth 2.0', 'Keycloak', 'Spring Security']],
+  ['Cloud & Ops', ['GCP', 'AWS', 'Docker', 'CI/CD', 'Maven']],
+  ['Practices', ['Microservices', 'Event-driven design', 'Hexagonal architecture']],
 ];
 
 export const LINKS = {
-  github:'https://github.com/grpanda16',
-  linkedin:'https://www.linkedin.com/in/gyana16/',
-  email:'gr.panda16@gmail.com',
-  // Résumé temporarily points to LinkedIn (accurate & current).
-  // To use a real PDF: drop it at public/resume.pdf and set resume:'/resume.pdf'
-  resume:'/resume.pdf',
+  github: 'https://github.com/grpanda16',
+  linkedin: 'https://www.linkedin.com/in/gyana16/',
+  email: 'gr.panda16@gmail.com',
+  resume: '/resume.pdf',
 };
+
+/** Snippet rendered in the home hero. */
+export const HERO_SNIPPET = `@RestController
+@RequestMapping("/api/v1/orders")
+class OrderController {
+
+  private final OrderService orders;
+
+  @PostMapping
+  @PreAuthorize("hasAuthority('SCOPE_order:write')")
+  ResponseEntity<OrderView> place(
+      @Valid @RequestBody PlaceOrder cmd,
+      @RequestHeader("Idempotency-Key") String key) {
+
+    // same key, same result — retries are free
+    Order order = orders.place(cmd, key);
+
+    return ResponseEntity
+        .created(URI.create("/api/v1/orders/" + order.id()))
+        .body(OrderView.from(order));
+  }
+}`;
