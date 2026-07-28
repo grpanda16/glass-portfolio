@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Reveal from '../components/Reveal';
 import useSeo from '../lib/useSeo';
+import { PAGE_SEO } from '../lib/seo';
 import { EXPERIENCE, LINKS, PROJECTS, STACK } from '../data';
 
 const USER = 'grpanda16';
@@ -91,13 +92,7 @@ function Repos() {
 }
 
 export default function Work() {
-  useSeo({
-    title: 'Work — Gyanaranjan Panda',
-    description:
-      'Four engineering roles since 2021. Spring Boot microservices, Kafka pipelines, ' +
-      'authentication systems and the platforms they run inside.',
-    path: '/work',
-  });
+  useSeo({ ...PAGE_SEO['/work'], path: '/work' });
 
   return (
     <div className="wrap page">

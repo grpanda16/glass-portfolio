@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
-
-// Must match the host that actually serves the site — a canonical pointing at a
-// domain that does not resolve breaks indexing and social previews.
-export const SITE = 'https://www.gyanaranjanpanda.com';
+import { SITE } from './seo';
 
 function setMeta(selector, attr, value) {
-  let el = document.head.querySelector(selector);
-  if (!el) return;
-  el.setAttribute(attr, value);
+  const el = document.head.querySelector(selector);
+  if (el) el.setAttribute(attr, value);
 }
 
-/** Per-route <title>, description, canonical and OG tags. */
+/**
+ * Per-route <title>, description, canonical and OG tags.
+ *
+ * Production HTML already carries the correct tags from the prerenderer; this
+ * keeps them right across client-side navigations, where no new document is
+ * fetched.
+ */
 export default function useSeo({ title, description, path, type = 'website' }) {
   useEffect(() => {
     if (title) {
