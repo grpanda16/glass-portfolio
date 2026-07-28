@@ -150,5 +150,5 @@ prerender step rather than in production.
   the tallest so the hero never reflows mid-cycle, and longer lines force a
   horizontal scrollbar that looks broken while typing. Under
   `prefers-reduced-motion` nothing animates and the snippet renders whole.
-- `public/hero.jpg` / `public/hero.webp` are unused since the hero became the
-  code panel. Delete them if you don't want them back.
+- There are no images on the site apart from the favicon and the social card.
+  The hero is rendered type, so nothing to keep in sync and nothing to optimise.

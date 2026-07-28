@@ -6,7 +6,8 @@ export const PROFILE = {
   location: 'India · Hybrid',
   years: '4.5',
   available: 'Open to backend & distributed-systems roles',
-  tagline: 'Java at the core.',
+  tagline: 'Java on the backend. React on the front.',
+  taglineAccent: 'Reliable across both.',
   summary:
     'Software Engineer at Boeing, four and a half years into building the backend half properly ' +
     'and the front-end half so it does the backend justice — Spring Boot microservices, Kafka ' +

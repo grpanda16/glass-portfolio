@@ -1,6 +1,6 @@
 /* ============================================================
    gyanaranjanpanda.com — design system
-   Dark, glass-on-mesh. Inter + JetBrains Mono + Instrument Serif.
+   Dark, glass-on-mesh. Inter + JetBrains Mono.
    ============================================================ */
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -9,8 +9,6 @@
   /* surface */
   --bg:#06070D;
   --bg-lift:#0A0C16;
-  --panel:rgba(255,255,255,.045);
-  --panel-2:rgba(255,255,255,.075);
   --line:rgba(255,255,255,.085);
   --line-2:rgba(255,255,255,.17);
 
@@ -29,7 +27,6 @@
   /* type */
   --sans:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
   --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
-  --serif:'Instrument Serif',Georgia,serif;
 
   /* metrics */
   --max:1140px;
@@ -160,7 +157,6 @@ h1,h2,h3,h4{letter-spacing:-.025em;line-height:1.1;font-weight:700}
 .h-md{font-size:clamp(21px,2.6vw,27px)}
 
 .lede{color:var(--ink-2);font-size:clamp(15px,1.6vw,17.5px);font-weight:300;max-width:60ch;line-height:1.68}
-.muted{color:var(--ink-3)}
 
 /* reveal on scroll */
 .reveal{opacity:0;transform:translateY(18px);
@@ -237,9 +233,13 @@ section{scroll-margin-top:110px}
    column with room to spare, and it wraps cleanly below that. */
 .hero-name{font-size:clamp(34px,5.4vw,58px);line-height:1.02;letter-spacing:-.037em;
   font-weight:700;text-wrap:balance;margin:20px 0 12px}
-.hero-tagline{font-family:var(--serif);font-style:italic;font-weight:400;
-  font-size:clamp(20px,2.8vw,31px);line-height:1.22;letter-spacing:-.015em;
-  color:var(--ink-2);margin-bottom:20px}
+/* Sans at weight 500 in full-strength ink. The serif italic read as decorative
+   and thin here, and gradient-clipped text loses letter definition at this
+   size — a solid accent colour stays crisp. */
+.hero-tagline{font-size:clamp(16px,2vw,21px);font-weight:500;line-height:1.42;
+  letter-spacing:-.018em;color:var(--ink);margin-bottom:20px;text-wrap:balance}
+/* own line, so the wrap never lands mid-sentence */
+.hero-tagline .accent{display:block;color:var(--mint)}
 
 .hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
 
@@ -316,7 +316,6 @@ section{scroll-margin-top:110px}
 .t-typ{color:#6FE7C6}
 .t-fn{color:#C4CCF5}
 .t-key{color:#8B93FF}
-.t-punc{color:#5F6C8C}
 
 
 /* ============================================================
@@ -513,14 +512,8 @@ form.contact{display:flex;flex-direction:column;gap:16px}
 
 
 /* ============================================================
-   Rail (sidebar card)
+   Sidebar rows (contact card)
    ============================================================ */
-.rail{padding:26px;display:flex;flex-direction:column;gap:17px;position:sticky;top:96px}
-.rail-id{display:flex;align-items:center;gap:14px}
-.avatar{width:56px;height:56px;border-radius:16px;background:var(--grad);color:#061019;
-  display:grid;place-items:center;font-weight:700;font-size:19px;letter-spacing:-.02em;flex:none}
-.rail h4{font-size:16.5px;letter-spacing:-.02em}
-.rail .role{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:2px}
 .hr{height:1px;background:var(--line)}
 .rrow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:13px}
 .rrow>span:first-child{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;

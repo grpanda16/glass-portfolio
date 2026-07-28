@@ -41,7 +41,7 @@ export default function Home() {
             <h1 className="hero-name">{PROFILE.name}</h1>
 
             <p className="hero-tagline">
-              Full stack, <span className="gradtext">{PROFILE.tagline}</span>
+              {PROFILE.tagline} <span className="accent">{PROFILE.taglineAccent}</span>
             </p>
 
             <p className="lede">{PROFILE.summary}</p>

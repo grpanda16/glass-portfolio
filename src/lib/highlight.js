@@ -169,5 +169,3 @@ export function tokenize(code, lang) {
   if (last < code.length) out.push({ t: code.slice(last) });
   return out;
 }
-
-export const SUPPORTED = Object.keys(SPECS);
