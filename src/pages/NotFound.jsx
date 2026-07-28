@@ -16,7 +16,7 @@ export default function NotFound({ what = 'page' }) {
         </p>
         <div className="cta">
           <Link className="btn solid" to="/">Back home</Link>
-          <Link className="btn" to="/writing">Read the writing</Link>
+          <Link className="btn" to="/blog">Read the blog</Link>
           <Link className="btn" to="/work">See the work</Link>
         </div>
       </div>

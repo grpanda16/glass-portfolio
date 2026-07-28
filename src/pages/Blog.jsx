@@ -5,7 +5,7 @@ import useSeo from '../lib/useSeo';
 import { PAGE_SEO } from '../lib/seo';
 import { ALL_TAGS, POSTS, formatDate } from '../posts';
 
-export default function Writing() {
+export default function Blog() {
   const [tag, setTag] = useState(null);
 
   const shown = useMemo(
@@ -13,7 +13,7 @@ export default function Writing() {
     [tag],
   );
 
-  useSeo({ ...PAGE_SEO['/writing'], path: '/writing' });
+  useSeo({ ...PAGE_SEO['/blog'], path: '/blog' });
 
   return (
     <div className="wrap page">
@@ -54,7 +54,7 @@ export default function Writing() {
       <div className="postlist">
         {shown.map((p, i) => (
           <Reveal key={p.slug} delay={Math.min(i, 6) * 70}>
-            <Link className="card post-row" to={`/writing/${p.slug}`}>
+            <Link className="card post-row" to={`/blog/${p.slug}`}>
               <span className="post-idx">{String(i + 1).padStart(2, '0')}</span>
               <div className="post-main">
                 <h3>{p.title}</h3>

@@ -12,7 +12,8 @@ export default function Footer() {
         </span>
         <div className="foot-links">
           <Link to="/work">Work</Link>
-          <Link to="/writing">Writing</Link>
+          <Link to="/projects">Projects</Link>
+          <Link to="/blog">Blog</Link>
           <Link to="/contact">Contact</Link>
           <a href={LINKS.github} target="_blank" rel="noreferrer">GitHub ↗</a>
           <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>

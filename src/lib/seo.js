@@ -15,14 +15,20 @@ export const PAGE_SEO = {
   '/work': {
     title: 'Work' + SUFFIX,
     description:
-      'Four engineering roles since 2021. Spring Boot microservices, Kafka pipelines, ' +
-      'authentication systems and the platforms they run inside.',
+      'Four engineering roles since 2021 — Boeing, CureBay, Certiview and TapAcademy — and the ' +
+      'Java, Spring, Kafka and cloud stack behind them.',
   },
-  '/writing': {
-    title: 'Writing' + SUFFIX,
+  '/blog': {
+    title: 'Blog' + SUFFIX,
     description:
       'Notes on JWT and Spring Security, Keycloak and OAuth 2.0, idempotent Kafka consumers, ' +
       'JPA performance and structuring Spring Boot microservices.',
+  },
+  '/projects': {
+    title: 'Projects' + SUFFIX,
+    description:
+      'Platforms built end to end — a B2B pharmacy marketplace and a financial document ' +
+      'system — plus live public repositories from GitHub.',
   },
   '/contact': {
     title: 'Contact' + SUFFIX,
@@ -35,7 +41,7 @@ export const PAGE_SEO = {
 /** Every URL the prerenderer should emit. */
 export const ALL_ROUTES = [
   ...Object.keys(PAGE_SEO),
-  ...POSTS.map((p) => `/writing/${p.slug}`),
+  ...POSTS.map((p) => `/blog/${p.slug}`),
 ];
 
 /**
@@ -47,7 +53,7 @@ export function seoFor(pathname) {
 
   if (PAGE_SEO[path]) return { ...PAGE_SEO[path], path, type: 'website' };
 
-  const match = path.match(/^\/writing\/(.+)$/);
+  const match = path.match(/^\/blog\/(.+)$/);
   if (match) {
     const post = getPost(match[1]);
     if (post) {
@@ -75,7 +81,7 @@ export function articleJsonLd(post) {
     dateModified: post.date,
     keywords: post.tags.join(', '),
     image: `${SITE}/og.png`,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/writing/${post.slug}` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${post.slug}` },
     author: { '@type': 'Person', name: 'Gyanaranjan Panda', url: `${SITE}/` },
     publisher: { '@type': 'Person', name: 'Gyanaranjan Panda', url: `${SITE}/` },
   };

@@ -16,14 +16,16 @@ npm run lint     # oxlint
 
 | Path              | Page                                              |
 | ----------------- | ------------------------------------------------- |
-| `/`               | Hero, what I do, selected work, stack, latest posts |
-| `/work`           | Experience timeline, projects, stack, live GitHub repos |
-| `/writing`        | Blog index with tag filtering                     |
-| `/writing/:slug`  | Article                                           |
+| `/`               | Hero, what I do, selected work, stack, latest posts, availability |
+| `/work`           | Experience timeline and stack                     |
+| `/projects`       | Platforms, plus live public repos from GitHub     |
+| `/blog`           | Blog index with tag filtering                     |
+| `/blog/:slug`     | Article                                           |
 | `/contact`        | Contact form + channels                           |
 | anything else     | 404                                               |
 
-`vercel.json` rewrites everything to `/` so deep links survive a refresh.
+`vercel.json` rewrites unknown paths to `/` so deep links survive a refresh, and
+308-redirects the old `/writing` URLs to `/blog`.
 
 ## Editing content
 
@@ -42,7 +44,7 @@ registry to update, `import.meta.glob` handles it, and the filename becomes the
 URL slug.
 
 ```jsx
-// src/posts/my-post.jsx  ->  /writing/my-post
+// src/posts/my-post.jsx  ->  /blog/my-post
 import Code from '../components/Code';
 
 export const meta = {
@@ -67,7 +69,7 @@ export default function Post() {
 ### Available in posts
 
 - `<Code lang="…" name="…">` — `java`, `js`, `json`, `yaml`, `xml`, `bash`,
-  `http`, `properties`. Anything else renders unhighlighted. Highlighting is a
+  `http`, `properties`, `sql`. Anything else renders unhighlighted. Highlighting is a
   small single-pass tokenizer in `src/lib/highlight.js`; tokens render as React
   text nodes, never as raw HTML.
 - `<div className="note">` — callout. Add `good` or `bad` for the mint/red
@@ -100,7 +102,7 @@ node scripts/prerender.mjs                  # static HTML + sitemap
 ```
 
 The prerenderer renders every route with `react-dom/server` and writes a real
-HTML file per URL — `dist/work/index.html`, `dist/writing/<slug>/index.html` and
+HTML file per URL — `dist/work/index.html`, `dist/blog/<slug>/index.html` and
 so on — so crawlers receive the actual text instead of an empty `<div id="root">`.
 The browser then hydrates it (`src/main.jsx` picks `hydrateRoot` when the root
 already has markup, `createRoot` in dev when it doesn't). The temporary
@@ -170,7 +172,7 @@ Details worth knowing:
 
 ## Notes
 
-- The GitHub repository grid on `/work` calls the public GitHub API
+- The GitHub repository grid on `/projects` calls the public GitHub API
   unauthenticated — 60 requests/hour per IP. It degrades to a link on failure.
 - The contact form has no backend. It validates, then opens the visitor's mail
   client with the message prefilled. Nothing is sent or stored server-side.

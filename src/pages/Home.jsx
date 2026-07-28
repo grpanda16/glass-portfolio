@@ -54,7 +54,7 @@ export default function Home() {
 
             <div className="cta">
               <Link className="btn solid" to="/work">View work</Link>
-              <Link className="btn" to="/writing">Read the writing</Link>
+              <Link className="btn" to="/blog">Read the blog</Link>
               <a className="btn" href={LINKS.resume} target="_blank" rel="noreferrer">Résumé ↗</a>
             </div>
 
@@ -136,7 +136,7 @@ export default function Home() {
           </div>
 
           <Reveal delay={120} style={{ marginTop: 22 }}>
-            <Link className="btn" to="/work">Full experience & projects →</Link>
+            <Link className="btn" to="/projects">All projects →</Link>
           </Reveal>
         </section>
 
@@ -159,16 +159,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------- writing ---------- */}
-        <section id="writing">
+        {/* ---------- blog ---------- */}
+        <section id="blog">
           <Reveal>
-            <div className="eyebrow"><span className="n">04</span> Recent writing</div>
+            <div className="eyebrow"><span className="n">04</span> From the blog</div>
           </Reveal>
 
           <div className="postlist">
             {recent.map((p, i) => (
               <Reveal key={p.slug} delay={i * 80}>
-                <Link className="card post-row" to={`/writing/${p.slug}`}>
+                <Link className="card post-row" to={`/blog/${p.slug}`}>
                   <span className="post-idx">{String(i + 1).padStart(2, '0')}</span>
                   <div className="post-main">
                     <h3>{p.title}</h3>
@@ -187,7 +187,7 @@ export default function Home() {
           </div>
 
           <Reveal delay={120} style={{ marginTop: 22 }}>
-            <Link className="btn" to="/writing">All posts →</Link>
+            <Link className="btn" to="/blog">All posts →</Link>
           </Reveal>
         </section>
 

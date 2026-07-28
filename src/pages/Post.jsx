@@ -14,7 +14,7 @@ export default function Post() {
   useSeo({
     title: post ? `${post.title} — Gyanaranjan Panda` : 'Not found — Gyanaranjan Panda',
     description: post ? post.blurb : undefined,
-    path: `/writing/${slug}`,
+    path: `/blog/${slug}`,
     type: 'article',
   });
 
@@ -32,8 +32,8 @@ export default function Post() {
     <div className="wrap page">
       <article className="article">
         <header className="article-head">
-          <Link className="post-idx" to="/writing" style={{ display: 'inline-block' }}>
-            ← All writing
+          <Link className="post-idx" to="/blog" style={{ display: 'inline-block' }}>
+            ← All posts
           </Link>
 
           <h1>{post.title}</h1>
@@ -58,14 +58,14 @@ export default function Post() {
           {(newer || older) && (
             <nav className="postnav" aria-label="More posts">
               {older ? (
-                <Link className="card hoverable" to={`/writing/${older.slug}`}>
+                <Link className="card hoverable" to={`/blog/${older.slug}`}>
                   <div className="dir">← Older</div>
                   <div className="ttl">{older.title}</div>
                 </Link>
               ) : <span />}
 
               {newer ? (
-                <Link className="card hoverable nxt" to={`/writing/${newer.slug}`}>
+                <Link className="card hoverable nxt" to={`/blog/${newer.slug}`}>
                   <div className="dir">Newer →</div>
                   <div className="ttl">{newer.title}</div>
                 </Link>
@@ -79,7 +79,7 @@ export default function Post() {
               I write about the backend problems that only show up under real load.
             </p>
             <div className="cta">
-              <Link className="btn solid" to="/writing">More writing</Link>
+              <Link className="btn solid" to="/blog">More posts</Link>
               <a className="btn" href={LINKS.linkedin} target="_blank" rel="noreferrer">
                 Follow on LinkedIn ↗
               </a>
