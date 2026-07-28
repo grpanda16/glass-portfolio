@@ -100,6 +100,67 @@ ENTRYPOINT ["java","-XX:MaxRAMPercentage=75","-jar","app.jar"]`}</Code>
         which you actually wanted.
       </p>
 
+      <h3>Lambda against Cloud Run</h3>
+      <p>
+        These get compared constantly, and they are not the same shape. Lambda is a function with a
+        managed runtime around it; Cloud Run is your container, scaled to zero. The GCP equivalent
+        of Lambda is Cloud Functions — but since Cloud Run is what people actually reach for, the
+        comparison worth having is this one.
+      </p>
+
+      <div className="table-scroll">
+        <table>
+          <thead>
+            <tr><th></th><th>AWS Lambda</th><th>GCP Cloud Run</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Unit</strong></td>
+              <td>A handler function</td>
+              <td>A container listening on a port</td>
+            </tr>
+            <tr>
+              <td><strong>Max duration</strong></td>
+              <td>15 minutes, hard</td>
+              <td>Configurable, and far longer</td>
+            </tr>
+            <tr>
+              <td><strong>Concurrency</strong></td>
+              <td>One request per instance</td>
+              <td>Many per instance — the JVM gets used properly</td>
+            </tr>
+            <tr>
+              <td><strong>Portability</strong></td>
+              <td>Handler ties you to the platform</td>
+              <td>Same image runs anywhere</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        The concurrency row is the one that decides it for Spring Boot. Lambda gives each instance a
+        single request at a time, so you pay the JVM&apos;s memory footprint per concurrent request
+        and get none of the throughput a warm JVM is good at. Cloud Run sends many requests to one
+        container, which is the model the framework was built for.
+      </p>
+
+      <div className="note">
+        <span className="nt">If it has to be Lambda</span>
+        Java cold starts on Lambda are the well-known complaint — classloading and context
+        initialisation happen on the request that triggered the scale-up. <strong>SnapStart</strong>
+        exists for exactly this: it snapshots an initialised JVM after startup and restores from
+        that image, which removes most of the penalty. Provisioned concurrency does the same job by
+        keeping instances warm, and costs accordingly. Plain Lambda with a Spring Boot fat jar and
+        neither of those is the configuration people benchmark and then write angry posts about.
+      </div>
+
+      <p>
+        My rule: Lambda for genuinely event-shaped work that finishes quickly — an S3 upload trigger,
+        a scheduled cleanup, a webhook receiver. Cloud Run or Fargate for anything that is a service
+        with an HTTP API, which a Spring Boot application almost always is.
+      </p>
+
       <h2>Messaging: SQS against Pub/Sub</h2>
       <p>
         Both are at-least-once. Both hand you a message with a deadline and expect an
@@ -120,7 +181,8 @@ ENTRYPOINT ["java","-XX:MaxRAMPercentage=75","-jar","app.jar"]`}</Code>
         </table>
       </div>
 
-      <Code lang="java" name="Two listeners, one handler">{`@Component
+      <Code lang="java" name="Two listeners, one handler">{`// static import: GcpPubSubHeaders.ORIGINAL_MESSAGE
+@Component
 @RequiredArgsConstructor
 class OrderEvents {
 
@@ -132,8 +194,11 @@ class OrderEvents {
     handle(event, id);
   }
 
-  @ServiceActivator(inputChannel = "orderEventsChannel")   // GCP
-  void onPubSub(OrderEvent event, @Header(GcpPubSubHeaders.ORIGINAL_MESSAGE) BasicAcknowledgeablePubsubMessage msg) {
+  @ServiceActivator(inputChannel = "orderEvents")   // GCP
+  void onPubSub(
+      OrderEvent event,
+      @Header(ORIGINAL_MESSAGE) BasicAcknowledgeablePubsubMessage msg) {
+
     handle(event, msg.getPubsubMessage().getMessageId());
     msg.ack();
   }
@@ -160,6 +225,62 @@ class OrderEvents {
         useless. Two thin adapters calling one handler is less code and easier to read than one
         abstraction pretending the clouds are the same.
       </div>
+
+      <h2>Object storage: S3 against Cloud Storage</h2>
+      <p>
+        This is the closest pairing of the lot. Both are buckets of immutable objects with
+        lifecycle rules, storage tiers and event notifications, and both are strongly consistent —
+        S3 has been read-after-write consistent since 2020, so the &quot;eventual consistency&quot;
+        advice still floating around is out of date.
+      </p>
+
+      <div className="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Concept</th><th>S3</th><th>Cloud Storage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Namespace</td><td>Bucket names global per partition</td><td>Bucket names globally unique</td></tr>
+            <tr><td>Temporary access</td><td>Presigned URL</td><td>Signed URL</td></tr>
+            <tr><td>Cool tiers</td><td>Standard-IA, Glacier</td><td>Nearline, Coldline, Archive</td></tr>
+            <tr><td>Change events</td><td>S3 notifications → SQS / SNS / Lambda</td><td>Notifications → Pub/Sub</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        The one that matters in application code is temporary access. Do not stream a file through
+        your service to hand it to a browser — issue a time-limited URL and let the client talk to
+        storage directly. Your container stops being a proxy for bytes it has no opinion about.
+      </p>
+
+      <Code lang="java" name="Time-limited download links">{`// AWS — presigned GET, expires in 15 minutes
+PresignedGetObjectRequest presigned = presigner.presignGetObject(r -> r
+    .signatureDuration(Duration.ofMinutes(15))
+    .getObjectRequest(g -> g.bucket("invoices").key(key)));
+
+URL awsUrl = presigned.url();
+
+// GCP — same idea, V4 signing
+URL gcpUrl = storage.signUrl(
+    BlobInfo.newBuilder("invoices", key).build(),
+    15, TimeUnit.MINUTES,
+    Storage.SignUrlOption.withV4Signature());`}</Code>
+
+      <div className="note bad">
+        <span className="nt">Signed does not mean private</span>
+        A signed URL is a bearer token in a query string. It lands in browser history, in referrer
+        headers, and in any log that records full URLs. Keep the expiry short — minutes, not days —
+        and never treat one as a permanent link you can email out.
+      </div>
+
+      <p>
+        The event wiring is worth noting too, because it is where the two diverge in shape. S3
+        notifications fan out to SQS, SNS or Lambda directly; Cloud Storage sends everything to
+        Pub/Sub and you subscribe from there. Same capability, one indirection apart — and it means
+        the &quot;upload triggers processing&quot; pattern is wired differently even though the
+        handler is identical.
+      </p>
 
       <h2>Secrets, and the mistake everyone makes first</h2>
       <p>
