@@ -231,25 +231,25 @@ LIMIT  20;`,
   },
   {
     label: 'AWS',
-    lang: 'java',
-    file: 'OrderQueueListener.java',
-    code: `@Component
-class OrderQueueListener {
+    lang: 'yaml',
+    file: 'order-service.yml',
+    code: `# AWS services behind one order platform
+Resources:
 
-  private final ProcessedEvents processed;
-  private final OrderService orders;
+  OrderQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 60
+      RedrivePolicy: { maxReceiveCount: 5 }
 
-  @SqsListener("order-events")
-  void onOrderEvent(OrderEvent event,
-                    @Header("MessageId") String id) {
+  Invoices:
+    Type: AWS::S3::Bucket
 
-    // SQS delivers at least once — claim before applying
-    if (!processed.claim(id)) {
-      return;
-    }
-    orders.apply(event);
-  }
-}`,
+  OrdersDb:
+    Type: AWS::RDS::DBInstance
+
+  Api:
+    Type: AWS::ECS::Service`,
   },
 ];
 
