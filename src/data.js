@@ -6,10 +6,11 @@ export const PROFILE = {
   location: 'India · Hybrid',
   years: '4.5',
   available: 'Open to backend & distributed-systems roles',
+  tagline: 'Java at the core.',
   summary:
-    'I build the backend half properly and the front-end half so it does the backend justice — ' +
-    'Spring Boot services, Kafka event pipelines, and React interfaces that hold up once real ' +
-    'traffic arrives.',
+    'Software Engineer at Boeing, four and a half years into building the backend half properly ' +
+    'and the front-end half so it does the backend justice — Spring Boot microservices, Kafka ' +
+    'event pipelines and React interfaces that hold up once real traffic arrives.',
 };
 
 export const METRICS = [

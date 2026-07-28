@@ -37,10 +37,12 @@ export default function Home() {
           <Reveal>
             <span className="pill"><span className="dot" />{PROFILE.title} · {PROFILE.company}</span>
 
-            <h1 className="h-xl">
-              Full stack,<br />
-              <span className="serif-em gradtext">Java at the core.</span>
-            </h1>
+            {/* the name is the h1: it is the term the site should rank for */}
+            <h1 className="hero-name">{PROFILE.name}</h1>
+
+            <p className="hero-tagline">
+              Full stack, <span className="gradtext">{PROFILE.tagline}</span>
+            </p>
 
             <p className="lede">{PROFILE.summary}</p>
 
