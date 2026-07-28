@@ -119,15 +119,19 @@ export const STACK = [
   ['Practices', ['Microservices', 'Event-driven design', 'Hexagonal architecture']],
 ];
 
-export const LINKS = {
-  github: 'https://github.com/grpanda16',
-  linkedin: 'https://www.linkedin.com/in/gyana16/',
-  email: 'gr.panda16@gmail.com',
-  resume: '/resume.pdf',
-};
-
-/** Snippet rendered in the home hero. */
-export const HERO_SNIPPET = `@RestController
+/**
+ * Cards the hero types out, one after another, then erases.
+ *
+ * Keep them within ~16 lines and ~72 columns — the panel height is fixed to the
+ * tallest so the layout never shifts mid-cycle, and long lines force a
+ * horizontal scrollbar that looks broken while typing.
+ */
+export const HERO_SNIPPETS = [
+  {
+    label: 'Java',
+    lang: 'java',
+    file: 'OrderController.java',
+    code: `@RestController
 @RequestMapping("/api/v1/orders")
 class OrderController {
 
@@ -141,9 +145,74 @@ class OrderController {
 
     // same key, same result — retries are free
     Order order = orders.place(cmd, key);
-
-    return ResponseEntity
-        .created(URI.create("/api/v1/orders/" + order.id()))
-        .body(OrderView.from(order));
+    return ResponseEntity.ok(OrderView.from(order));
   }
-}`;
+}`,
+  },
+  {
+    label: 'React',
+    lang: 'jsx',
+    file: 'useOrders.js',
+    code: `export function useOrders(status) {
+  const [state, setState] = useState({ loading: true });
+
+  useEffect(() => {
+    const ac = new AbortController();
+    const opts = { signal: ac.signal };
+
+    fetch(\`/api/orders?status=\${status}\`, opts)
+      .then((r) => r.json())
+      .then((data) => setState({ loading: false, data }))
+      .catch((e) => setState({ error: e }));
+
+    return () => ac.abort();
+  }, [status]);
+
+  return state;
+}`,
+  },
+  {
+    label: 'SQL',
+    lang: 'sql',
+    file: 'top_customers.sql',
+    code: `SELECT c.id,
+       c.name,
+       COUNT(o.id)        AS orders,
+       SUM(o.total_minor) AS lifetime_minor
+FROM   customer c
+JOIN   orders   o ON o.customer_id = c.id
+WHERE  o.placed_at >= NOW() - INTERVAL '90 days'
+  AND  o.status = 'FULFILLED'
+GROUP  BY c.id, c.name
+HAVING COUNT(o.id) > 3
+ORDER  BY lifetime_minor DESC
+LIMIT  20;`,
+  },
+  {
+    label: 'JavaScript',
+    lang: 'js',
+    file: 'idempotency.js',
+    code: `const seen = new Map();
+
+// Replays get the first answer, not a second write.
+export function once(key, ttlMs, run) {
+  const hit = seen.get(key);
+
+  if (hit && hit.expires > Date.now()) {
+    return hit.value;
+  }
+
+  const value = run();
+  seen.set(key, { value, expires: Date.now() + ttlMs });
+
+  return value;
+}`,
+  },
+];
+
+export const LINKS = {
+  github: 'https://github.com/grpanda16',
+  linkedin: 'https://www.linkedin.com/in/gyana16/',
+  email: 'gr.panda16@gmail.com',
+  resume: '/resume.pdf',
+};

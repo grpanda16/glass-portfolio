@@ -143,5 +143,12 @@ prerender step rather than in production.
   unauthenticated — 60 requests/hour per IP. It degrades to a link on failure.
 - The contact form has no backend. It validates, then opens the visitor's mail
   client with the message prefilled. Nothing is sent or stored server-side.
-- `public/hero.jpg` and `public/hero.webp` are no longer referenced — the hero
-  uses a code panel instead. Delete them if you do not want them back.
+- The hero panel (`src/components/CodeTyper.jsx`) types each snippet in
+  `HERO_SNIPPETS`, holds it, erases it and moves to the next, looping. The
+  language tabs jump straight to one. Edit the snippets in `src/data.js` —
+  **keep them within 17 lines and ~57 columns**: the panel height is pinned to
+  the tallest so the hero never reflows mid-cycle, and longer lines force a
+  horizontal scrollbar that looks broken while typing. Under
+  `prefers-reduced-motion` nothing animates and the snippet renders whole.
+- `public/hero.jpg` / `public/hero.webp` are unused since the hero became the
+  code panel. Delete them if you don't want them back.

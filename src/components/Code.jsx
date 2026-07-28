@@ -3,7 +3,7 @@ import { tokenize } from '../lib/highlight';
 
 const LABEL = {
   java: 'Java', js: 'JavaScript', jsx: 'JSX', json: 'JSON',
-  yaml: 'YAML', yml: 'YAML', properties: 'properties', xml: 'XML', html: 'HTML',
+  yaml: 'YAML', yml: 'YAML', properties: 'properties', xml: 'XML', html: 'HTML', sql: 'SQL',
   bash: 'shell', sh: 'shell', shell: 'shell', http: 'HTTP', text: 'text',
 };
 

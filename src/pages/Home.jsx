@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import Code from '../components/Code';
+import CodeTyper from '../components/CodeTyper';
 import Reveal from '../components/Reveal';
 import useSeo from '../lib/useSeo';
 import { PAGE_SEO } from '../lib/seo';
-import { HERO_SNIPPET, LINKS, METRICS, PROFILE, PROJECTS, STACK } from '../data';
+import { LINKS, METRICS, PROFILE, PROJECTS, STACK } from '../data';
 import { POSTS, formatDate } from '../posts';
 
 const DOING = [
@@ -58,7 +58,7 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={120}>
-            <Code lang="java" name="OrderController.java">{HERO_SNIPPET}</Code>
+            <CodeTyper />
           </Reveal>
         </div>
 
