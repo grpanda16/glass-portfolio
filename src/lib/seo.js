@@ -21,8 +21,8 @@ export const PAGE_SEO = {
   '/blog': {
     title: 'Blog' + SUFFIX,
     description:
-      'Notes on JWT and Spring Security, Keycloak and OAuth 2.0, idempotent Kafka consumers, ' +
-      'JPA performance and structuring Spring Boot microservices.',
+      'Backend engineering notes on JWT and Spring Security, Keycloak and OAuth 2.0, idempotent ' +
+      'Kafka consumers, JPA query performance, and structuring Spring Boot microservices.',
   },
   '/projects': {
     title: 'Projects' + SUFFIX,

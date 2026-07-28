@@ -18,14 +18,16 @@ export default function Blog() {
   return (
     <div className="wrap page">
       <Reveal className="page-head">
-        <span className="pill"><span className="dot" />{POSTS.length} posts</span>
+        <span className="pill">
+          <span className="dot" />{POSTS.length} posts · {ALL_TAGS.length} topics
+        </span>
         <h1 className="h-lg" style={{ margin: '20px 0 16px' }}>
-          Notes from the <span className="gradtext">backend.</span>
+          Backend notes, written <span className="gradtext">after the fix.</span>
         </h1>
         <p className="lede">
-          Things I got wrong first, then understood properly — auth, event delivery, and the
-          queries that only fall over once there is real data behind them. Written the way I would
-          explain it to the engineer who has to maintain it.
+          Auth, event delivery, query performance, and how to lay a service out so the next person
+          can change it safely. Mostly things that bit me in production first — written the way
+          I&apos;d explain them to whoever inherits the code, not the way a tutorial would.
         </p>
       </Reveal>
 
