@@ -1,3 +1,9 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "rewrites": [
+    {
+      "_comment": "SPA fallback for unknown routes. Excludes /api so serverless functions are not swallowed by it.",
+      "source": "/((?!api/).*)",
+      "destination": "/"
+    }
+  ]
 }

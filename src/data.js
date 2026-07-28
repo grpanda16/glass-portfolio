@@ -5,11 +5,30 @@ export const PROFILE = {
   company: 'Boeing',
   location: 'India · Hybrid',
   years: '4.5',
-  available: 'Open to backend & distributed-systems roles',
+  available: 'Open to work · Java Full Stack + AWS',
+  tagline: 'Java on the backend. React on the front.',
+  taglineAccent: 'Cloud underneath.',
   summary:
-    'I build the backend half properly and the front-end half so it does the backend justice — ' +
-    'Spring Boot services, Kafka event pipelines, and React interfaces that hold up once real ' +
-    'traffic arrives.',
+    'Software Engineer at Boeing, four and a half years into building the backend half properly ' +
+    'and the front-end half so it does the backend justice — Spring Boot microservices, Kafka ' +
+    'event pipelines and React interfaces, deployed on AWS and GCP and built to hold up once ' +
+    'real traffic arrives.',
+};
+
+/** Availability banner shown on the home page and on /contact. */
+export const OPEN_TO_WORK = {
+  status: 'Open to work',
+  role: 'Software Engineer',
+  focus: 'Java Full Stack + AWS',
+  note:
+    'Looking for backend-heavy full-stack work — Spring Boot services, event-driven systems ' +
+    'and the cloud infrastructure they run on.',
+  facts: [
+    ['Focus', 'Backend & distributed systems'],
+    ['Stack', 'Java · Spring Boot · AWS'],
+    ['Base', 'India · Hybrid or remote'],
+    ['Reply', 'Usually within a day'],
+  ],
 };
 
 export const METRICS = [
@@ -119,15 +138,41 @@ export const STACK = [
   ['Practices', ['Microservices', 'Event-driven design', 'Hexagonal architecture']],
 ];
 
-export const LINKS = {
-  github: 'https://github.com/grpanda16',
-  linkedin: 'https://www.linkedin.com/in/gyana16/',
-  email: 'gr.panda16@gmail.com',
-  resume: '/resume.pdf',
-};
+/**
+ * Cards the hero types out, one after another, then erases.
+ *
+ * Keep them within ~16 lines and ~72 columns — the panel height is fixed to the
+ * tallest so the layout never shifts mid-cycle, and long lines force a
+ * horizontal scrollbar that looks broken while typing.
+ */
+export const HERO_SNIPPETS = [
+  {
+    label: 'Java',
+    lang: 'java',
+    file: 'Order.java',
+    code: `public final class Order {
 
-/** Snippet rendered in the home hero. */
-export const HERO_SNIPPET = `@RestController
+  private final OrderId id;
+  private OrderStatus status;
+  private Instant cancelledAt;
+
+  public void cancel(Clock clock) {
+    if (status == OrderStatus.SHIPPED) {
+      throw new OrderAlreadyShipped(id);
+    }
+    if (status == OrderStatus.CANCELLED) {
+      return;  // cancelling twice is not an error
+    }
+    status = OrderStatus.CANCELLED;
+    cancelledAt = clock.instant();
+  }
+}`,
+  },
+  {
+    label: 'Spring Boot',
+    lang: 'java',
+    file: 'OrderController.java',
+    code: `@RestController
 @RequestMapping("/api/v1/orders")
 class OrderController {
 
@@ -141,9 +186,76 @@ class OrderController {
 
     // same key, same result — retries are free
     Order order = orders.place(cmd, key);
-
-    return ResponseEntity
-        .created(URI.create("/api/v1/orders/" + order.id()))
-        .body(OrderView.from(order));
+    return ResponseEntity.ok(OrderView.from(order));
   }
-}`;
+}`,
+  },
+  {
+    label: 'SQL',
+    lang: 'sql',
+    file: 'top_customers.sql',
+    code: `SELECT c.id,
+       c.name,
+       COUNT(o.id)        AS orders,
+       SUM(o.total_minor) AS lifetime_minor
+FROM   customer c
+JOIN   orders   o ON o.customer_id = c.id
+WHERE  o.placed_at >= NOW() - INTERVAL '90 days'
+  AND  o.status = 'FULFILLED'
+GROUP  BY c.id, c.name
+HAVING COUNT(o.id) > 3
+ORDER  BY lifetime_minor DESC
+LIMIT  20;`,
+  },
+  {
+    label: 'React',
+    lang: 'jsx',
+    file: 'useOrders.js',
+    code: `export function useOrders(status) {
+  const [state, setState] = useState({ loading: true });
+
+  useEffect(() => {
+    const ac = new AbortController();
+    const opts = { signal: ac.signal };
+
+    fetch(\`/api/orders?status=\${status}\`, opts)
+      .then((r) => r.json())
+      .then((data) => setState({ loading: false, data }))
+      .catch((e) => setState({ error: e }));
+
+    return () => ac.abort();
+  }, [status]);
+
+  return state;
+}`,
+  },
+  {
+    label: 'AWS',
+    lang: 'java',
+    file: 'OrderQueueListener.java',
+    code: `@Component
+class OrderQueueListener {
+
+  private final ProcessedEvents processed;
+  private final OrderService orders;
+
+  @SqsListener("order-events")
+  void onOrderEvent(OrderEvent event,
+                    @Header("MessageId") String id) {
+
+    // SQS delivers at least once — claim before applying
+    if (!processed.claim(id)) {
+      return;
+    }
+    orders.apply(event);
+  }
+}`,
+  },
+];
+
+export const LINKS = {
+  github: 'https://github.com/grpanda16',
+  linkedin: 'https://www.linkedin.com/in/gyana16/',
+  email: 'gr.panda16@gmail.com',
+  resume: '/resume.pdf',
+};

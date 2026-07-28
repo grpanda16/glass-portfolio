@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import Code from '../components/Code';
+import CodeTyper from '../components/CodeTyper';
+import OpenToWork from '../components/OpenToWork';
 import Reveal from '../components/Reveal';
 import useSeo from '../lib/useSeo';
 import { PAGE_SEO } from '../lib/seo';
-import { HERO_SNIPPET, LINKS, METRICS, PROFILE, PROJECTS, STACK } from '../data';
+import { LINKS, METRICS, PROFILE, PROJECTS, STACK } from '../data';
 import { POSTS, formatDate } from '../posts';
 
 const DOING = [
@@ -22,6 +23,11 @@ const DOING = [
     d: 'JPA and SQL tuned deliberately — projections over entity hydration, batch fetching over N+1, and query counts asserted in tests.',
     tags: ['PostgreSQL', 'Hibernate', 'MongoDB'],
   },
+  {
+    t: 'Cloud & delivery',
+    d: 'Services shipped to AWS and GCP through Docker-based CI/CD — managed queues, container deploys, and infrastructure a service can actually be handed to.',
+    tags: ['AWS', 'GCP', 'Docker', 'CI/CD'],
+  },
 ];
 
 export default function Home() {
@@ -37,10 +43,12 @@ export default function Home() {
           <Reveal>
             <span className="pill"><span className="dot" />{PROFILE.title} · {PROFILE.company}</span>
 
-            <h1 className="h-xl">
-              Full stack,<br />
-              <span className="serif-em gradtext">Java at the core.</span>
-            </h1>
+            {/* the name is the h1: it is the term the site should rank for */}
+            <h1 className="hero-name">{PROFILE.name}</h1>
+
+            <p className="hero-tagline">
+              {PROFILE.tagline} <span className="accent">{PROFILE.taglineAccent}</span>
+            </p>
 
             <p className="lede">{PROFILE.summary}</p>
 
@@ -58,7 +66,7 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={120}>
-            <Code lang="java" name="OrderController.java">{HERO_SNIPPET}</Code>
+            <CodeTyper />
           </Reveal>
         </div>
 
@@ -183,17 +191,13 @@ export default function Home() {
           </Reveal>
         </section>
 
-        {/* ---------- cta ---------- */}
-        <section>
-          <Reveal className="card cta-band">
-            <h2 className="h-lg">Building something that needs to <span className="gradtext">hold up?</span></h2>
-            <p className="lede" style={{ margin: '16px auto 0' }}>
-              {PROFILE.available}. Email is the fastest way to reach me.
-            </p>
-            <div className="cta">
-              <Link className="btn solid" to="/contact">Start a conversation</Link>
-              <a className="btn" href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
-            </div>
+        {/* ---------- availability ---------- */}
+        <section id="hiring">
+          <Reveal>
+            <div className="eyebrow"><span className="n">05</span> Availability</div>
+          </Reveal>
+          <Reveal delay={80}>
+            <OpenToWork />
           </Reveal>
         </section>
       </div>

@@ -85,6 +85,25 @@ const SPECS = {
     cls: ['t-com', 't-str', 't-fn', 't-ann', 't-num'],
   },
 
+  /* sql: -- and block comments, '' strings, keywords, aggregates, numbers.
+     Case-insensitive, so lower-case SQL highlights the same. */
+  sql: {
+    re: new RegExp(
+      '(--[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)' +
+        "|('(?:''|[^'])*')" +
+        '|\\b(SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|FULL|CROSS|ON|GROUP|BY|HAVING|' +
+        'ORDER|LIMIT|OFFSET|FETCH|INSERT|INTO|VALUES|UPDATE|SET|DELETE|CREATE|ALTER|DROP|' +
+        'TABLE|INDEX|VIEW|AS|AND|OR|NOT|NULL|IS|IN|BETWEEN|LIKE|EXISTS|CASE|WHEN|THEN|ELSE|' +
+        'END|DISTINCT|UNION|ALL|WITH|INTERVAL|ASC|DESC|PRIMARY|FOREIGN|KEY|REFERENCES|' +
+        'ON CONFLICT|CONFLICT|DO|NOTHING|RETURNING|OVER|PARTITION)\\b' +
+        '|\\b(COUNT|SUM|AVG|MIN|MAX|COALESCE|NULLIF|ROW_NUMBER|RANK|DENSE_RANK|NOW|' +
+        'DATE_TRUNC|EXTRACT|CAST)\\b' +
+        '|\\b(\\d+)\\b',
+      'gi',
+    ),
+    cls: ['t-com', 't-str', 't-kw', 't-fn', 't-num'],
+  },
+
   /* xml: comment, attribute value, tag name, attribute name */
   xml: {
     re: new RegExp(
@@ -150,5 +169,3 @@ export function tokenize(code, lang) {
   if (last < code.length) out.push({ t: code.slice(last) });
   return out;
 }
-
-export const SUPPORTED = Object.keys(SPECS);
