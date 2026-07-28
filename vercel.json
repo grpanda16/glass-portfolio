@@ -1,3 +1,7 @@
 {
+  "redirects": [
+    { "source": "/writing", "destination": "/blog", "permanent": true },
+    { "source": "/writing/:slug", "destination": "/blog/:slug", "permanent": true }
+  ],
   "rewrites": [{ "source": "/((?!api/).*)", "destination": "/" }]
 }

@@ -5,7 +5,8 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Work from './pages/Work';
-import Writing from './pages/Writing';
+import Blog from './pages/Blog';
+import Projects from './pages/Projects';
 import Post from './pages/Post';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
@@ -25,8 +26,9 @@ export default function AppShell() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/work" element={<Work />} />
-          <Route path="/writing" element={<Writing />} />
-          <Route path="/writing/:slug" element={<Post />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<Post />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

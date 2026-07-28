@@ -4,7 +4,8 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 const LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/work', label: 'Work' },
-  { to: '/writing', label: 'Writing' },
+  { to: '/projects', label: 'Projects' },
+  { to: '/blog', label: 'Blog' },
 ];
 
 export default function Nav() {

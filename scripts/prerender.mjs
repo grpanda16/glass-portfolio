@@ -93,15 +93,15 @@ for (const route of ALL_ROUTES) {
 
 /* ---------- sitemap, from the same route list ---------- */
 
-const PRIORITY = { '/': '1.0', '/work': '0.9', '/writing': '0.9', '/contact': '0.6' };
-const CHANGEFREQ = { '/': 'monthly', '/work': 'monthly', '/writing': 'weekly', '/contact': 'yearly' };
+const PRIORITY = { '/': '1.0', '/work': '0.9', '/projects': '0.9', '/blog': '0.9', '/contact': '0.6' };
+const CHANGEFREQ = { '/': 'monthly', '/work': 'monthly', '/projects': 'monthly', '/blog': 'weekly', '/contact': 'yearly' };
 
 const today = new Date().toISOString().slice(0, 10);
-const dateFor = Object.fromEntries(POST_INDEX.map((p) => [`/writing/${p.slug}`, p.date]));
+const dateFor = Object.fromEntries(POST_INDEX.map((p) => [`/blog/${p.slug}`, p.date]));
 const newestPost = POST_INDEX.map((p) => p.date).sort().at(-1) ?? today;
 
 const urls = ALL_ROUTES.map((route) => {
-  const lastmod = dateFor[route] ?? (route === '/writing' ? newestPost : today);
+  const lastmod = dateFor[route] ?? (route === '/blog' ? newestPost : today);
   return [
     '  <url>',
     `    <loc>${SITE}${route === '/' ? '/' : route}</loc>`,
