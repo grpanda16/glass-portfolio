@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
-import useSeo from '../lib/useSeo';
+import useSeo, { SITE } from '../lib/useSeo';
+import useJsonLd from '../lib/useJsonLd';
 import NotFound from './NotFound';
 import { LINKS } from '../data';
 import { POSTS, formatDate, getPost } from '../posts';
@@ -15,6 +16,22 @@ export default function Post() {
     path: `/writing/${slug}`,
     type: 'article',
   });
+
+  useJsonLd(
+    post && {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: post.title,
+      description: post.blurb,
+      datePublished: post.date,
+      dateModified: post.date,
+      keywords: post.tags.join(', '),
+      image: `${SITE}/og.png`,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/writing/${slug}` },
+      author: { '@type': 'Person', name: 'Gyanaranjan Panda', url: `${SITE}/` },
+      publisher: { '@type': 'Person', name: 'Gyanaranjan Panda', url: `${SITE}/` },
+    },
+  );
 
   if (!post) return <NotFound what="post" />;
 

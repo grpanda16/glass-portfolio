@@ -21,6 +21,41 @@
     <meta name="twitter:description" content="Spring Boot microservices, Kafka event pipelines, React front-ends." />
     <meta name="twitter:image" content="https://www.gyanaranjanpanda.com/og.png" />
 
+    <!--
+      Static Person schema: this is what tells Google the site is *about* a
+      named person, and links it to the profiles that corroborate it. Kept in
+      the HTML rather than injected by React so crawlers see it without having
+      to execute JavaScript.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Gyanaranjan Panda",
+        "alternateName": "Gyana Ranjan Panda",
+        "url": "https://www.gyanaranjanpanda.com/",
+        "image": "https://www.gyanaranjanpanda.com/og.png",
+        "jobTitle": "Java Full Stack Engineer",
+        "description": "Java Full Stack Engineer with 4.5 years building Spring Boot microservices, Kafka event pipelines and React front-ends.",
+        "worksFor": { "@type": "Organization", "name": "Boeing" },
+        "address": { "@type": "PostalAddress", "addressCountry": "IN" },
+        "sameAs": [
+          "https://www.linkedin.com/in/gyana16/",
+          "https://github.com/grpanda16"
+        ],
+        "knowsAbout": [
+          "Java",
+          "Spring Boot",
+          "Spring Security",
+          "Apache Kafka",
+          "Microservices",
+          "PostgreSQL",
+          "React",
+          "Distributed Systems"
+        ]
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
